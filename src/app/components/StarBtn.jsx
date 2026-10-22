@@ -11,7 +11,7 @@ const StarBtn = () => {
       onClick={() => setIsFavorite((favorite) => !favorite)}
       aria-label={isFavorite ? "Fjern fra favoritter" : "Føj til favoritter"}
       aria-pressed={isFavorite}
-      className="absolute top-4 right-4 z-10 bg-[#ffffff67] rounded-full p-2 text-white"
+      className="absolute top-4 right-4 z-10 bg-[#f2968fad] rounded-full p-2 text-white"
     >
       {isFavorite ? (
         <FaStar className="size-6" />

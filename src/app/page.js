@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Logo from "./components/Logo";
 import "./globals.css";
-import BreedCard from "./components/BreedCard";
+import BreedCards from "./components/BreedCards";
 import {LiaSearchSolid} from "react-icons/lia";
 
 export default function ListView() {
@@ -17,33 +17,9 @@ export default function ListView() {
           placeholder="search breeds"
         ></input>
       </div>
+
       <section className="grid grid-cols-2 p-4 gap-4">
-        <BreedCard
-          className="breed-card"
-          breedname="Affenpinscher"
-          from="Northern, Germany"
-        />
-        <BreedCard
-          className="breed-card"
-          breedname="Afghan Hound"
-          from="Afghanistan"
-        />
-        <BreedCard
-          className="breed-card"
-          breedname="Airedale Terrier"
-          from="Yorkshire, England"
-        />
-        <BreedCard
-          className="breed-card"
-          breedname="Akbash"
-          from="Western Turkey"
-        />
-        <BreedCard
-          className="breed-card"
-          breedname="Creepy dawg"
-          from="Brazil"
-        />
-        <BreedCard className="breed-card" breedname="Akita" from="Brazil" />
+        <BreedCards />
       </section>
     </>
   );

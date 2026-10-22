@@ -10,7 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-gudea);
   --coral-accent: #f2968f;
-  --header-bg: var(--color-yellow-200);
+  --header-bg: var(--color-gray-100);
 
   --desc1-bg-color: var(--color-blue-300);
   --desc1-text-color: var(--color-blue-800);
@@ -47,10 +47,30 @@ main {
       color 0.5s ease-in-out;
 
     &:hover {
-      background: var(--color-yellow-50);
-      color: var(--coral-accent);
+      background: var(--color-gray-200);
+      /* color: var(--coral-accent); */
     }
 
     /*brug rounded-b-none på billedet, hvis nedre kanter ikke skal være afrundede*/
+  }
+
+  .dot {
+    height: 20px;
+    width: 20px;
+    animation: dotVisibility 0.4s infinite;
+    opacity: 100%;
+  }
+
+  .dot2 {
+    animation: dotVisibility 0.6s infinite;
+  }
+
+  @keyframes dotVisibility {
+    50% {
+      opacity: 50%;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 }

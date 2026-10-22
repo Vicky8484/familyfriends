@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header
       className="
-    flex h-16 shadow-xl bg-(--header-bg) text-yellow-600 sticky top-0 z-999 
+    flex h-16 shadow-xl bg-(--header-bg) text-gray-600 sticky top-0 z-999 
     font-extrabold text-2xl items-center p-4 justify-between"
     >
       <Logo />
