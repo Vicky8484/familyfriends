@@ -20,6 +20,12 @@
   --desc3-text-color: var(--color-green-800);
   --desc4-bg-color: var(--color-yellow-200);
   --desc4-text-color: var(--color-yellow-800);
+  --desc5-bg-color: var(--color-purple-200);
+  --desc5-text-color: var(--color-purple-800);
+  --desc6-bg-color: var(--color-orange-200);
+  --desc6-text-color: var(--color-orange-800);
+  --desc7-bg-color: var(--color-pink-200);
+  --desc7-text-color: var(--color-pink-800);
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -50,8 +56,6 @@ main {
       background: var(--color-gray-200);
       /* color: var(--coral-accent); */
     }
-
-    /*brug rounded-b-none på billedet, hvis nedre kanter ikke skal være afrundede*/
   }
 
   .dot {
