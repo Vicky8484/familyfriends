@@ -22,19 +22,22 @@ const BreedCards = () => {
 
 export default BreedCards;
 
+/*data fetching*/
+
 const FetchBreeds = async ({className = ""}) => {
   const response = await fetch("https://api.thedogapi.com/v1/breeds?limit=10", {
     headers: {
       "x-api-key": process.env.API_KEY,
     },
   });
+
   const BreedsData = await response.json();
 
   return BreedsData.map((breed, index) => (
     //key index kan også godt være product.id, der skal bare være et key prop med en værdi der bliver unik for hver element der bliver returnet
 
     <article key={index} className={`relative ${className} breed-card`}>
-      <Link href="/detailview" className="grid">
+      <Link href={`/detailview/${breed.id}`} className="grid">
         <Image
           src={breed.image.url}
           width={500}
