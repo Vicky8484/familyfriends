@@ -37,11 +37,13 @@ async function FetchDetailBreed({params}) {
       <div className="relative grid w-fit">
         <Image
           src={data.image.url}
-          alt="Creepy doog"
+          alt={data.name}
           width={500}
           height={500}
+          loading="eager"
           className="col-start-1 row-start-1 rounded-3xl aspect-square object-cover"
         />
+
         <Link
           href="/"
           className=" bg-[#f2968fad] transition-colors duration-400 ease-in-out 
@@ -50,7 +52,7 @@ async function FetchDetailBreed({params}) {
         >
           <MdKeyboardArrowLeft className="size-8" />
         </Link>
-        <StarBtn />
+        <StarBtn id={data.image.id} />
         <MiniCard name={data.name} image={data.image.url} />
       </div>
 

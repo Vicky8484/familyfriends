@@ -51,6 +51,7 @@ const FetchBreeds = async ({className = "", searchParams}) => {
     <article key={index} className={`relative ${className} breed-card`}>
       <Link href={`/detailview/${breed.id}`} className="grid">
         <Image
+          loading="eager"
           src={breed.image.url}
           width={500}
           height={500}
@@ -64,7 +65,7 @@ const FetchBreeds = async ({className = "", searchParams}) => {
           <p className="text-sx">{breed.origin}</p>
         </div>
       </Link>
-      <StarBtn />
+      <StarBtn id={breed.image.id} />
     </article>
   ));
 };
