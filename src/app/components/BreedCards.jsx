@@ -1,10 +1,13 @@
+"use server";
+
 import Image from "next/image";
 import Link from "next/link";
 import StarBtn from "./StarBtn";
-import {Suspense} from "react";
 import LoadingUI from "@/app/components/LoadingUI.jsx";
+import {Suspense} from "react";
+import NoResultUI from "@/app/components/NoResultUI.jsx";
 
-const BreedCards = () => {
+const BreedCards = async ({searchParams}) => {
   return (
     <Suspense
       fallback={
@@ -15,7 +18,8 @@ const BreedCards = () => {
         />
       }
     >
-      <FetchBreeds />
+      {" "}
+      <FetchBreeds searchParams={searchParams} />
     </Suspense>
   );
 };
@@ -24,14 +28,22 @@ export default BreedCards;
 
 /*data fetching*/
 
-const FetchBreeds = async ({className = ""}) => {
-  const response = await fetch("https://api.thedogapi.com/v1/breeds?limit=10", {
+const FetchBreeds = async ({className = "", searchParams}) => {
+  const {query = ""} = await searchParams;
+  const url = query
+    ? `https://api.thedogapi.com/v1/breeds/search?q=${query}`
+    : "https://api.thedogapi.com/v1/breeds";
+  const response = await fetch(url, {
     headers: {
       "x-api-key": process.env.API_KEY,
     },
   });
 
   const BreedsData = await response.json();
+
+  if (BreedsData.length === 0) {
+    return <NoResultUI />;
+  }
 
   return BreedsData.map((breed, index) => (
     //key index kan også godt være product.id, der skal bare være et key prop med en værdi der bliver unik for hver element der bliver returnet
@@ -48,7 +60,7 @@ const FetchBreeds = async ({className = ""}) => {
         />
 
         <div className="p-4 gap-4">
-          <h2 className="font-semibold text-xl leading-10">{breed.name}</h2>
+          <h2 className="font-semibold text-xl leading-7">{breed.name}</h2>
           <p className="text-sx">{breed.origin}</p>
         </div>
       </Link>
