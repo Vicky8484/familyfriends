@@ -2,17 +2,33 @@
 import {FaRegStar, FaStar} from "react-icons/fa";
 import {useState} from "react";
 import {addFavorite} from "../actions/actions";
+import {removeFavorite} from "../actions/actions";
 
-const StarBtn = ({id, breed}) => {
-  const [isFavorite, setIsFavorite] =
+const StarBtn = ({imageId, initialFavoriteId = null}) => {
+  const [favoriteId, setFavoriteId] = useState(initialFavoriteId);
+  const isFavorite = favoriteId !== null;
+
+  /*const [isFavorite, setIsFavorite] =
     useState(
       false,
-    ); /*isFavorit fortæller om stjernen er valgt, setIsFavorite er den funktion der skal køre*/
+    ); isFavorit fortæller om stjernen er valgt, setIsFavorite er den funktion der skal køre*/
+
+  // const handleClick = async () => {
+  //   await addFavorite(id);
+  //   setIsFavorite((favorite) => !favorite);
+  // };
 
   const handleClick = async () => {
-    await addFavorite(id);
-    setIsFavorite((favorite) => !favorite);
+    if (isFavorite) {
+      await removeFavorite(favoriteId);
+      setFavoriteId(null);
+    } else {
+      const favorite = await addFavorite(imageId);
+      setFavoriteId(favorite.id);
+    }
   };
+
+  // Brug isFavorite til at vælge udfyldt eller tom stjerne.
 
   return (
     <button

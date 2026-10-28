@@ -26,46 +26,72 @@ const BreedCards = async ({searchParams}) => {
 
 export default BreedCards;
 
-/*data fetching*/
+/*
+-
+-
+-
+-
+-
+-
+data fetching*/
 
 const FetchBreeds = async ({className = "", searchParams}) => {
   const {query = ""} = await searchParams;
   const url = query
     ? `https://api.thedogapi.com/v1/breeds/search?q=${query}`
     : "https://api.thedogapi.com/v1/breeds";
-  const response = await fetch(url, {
+
+  const headers = {
     headers: {
       "x-api-key": process.env.API_KEY,
     },
-  });
+  };
 
-  const BreedsData = await response.json();
+  const [breedsResponse, favoritesResponse] = await Promise.all([
+    await fetch(url, headers),
+    await fetch("https://api.thedogapi.com/v1/favourites", headers),
+  ]);
 
-  if (BreedsData.length === 0) {
+  const [breeds, favorites] = await Promise.all([
+    await breedsResponse.json(),
+    await favoritesResponse.json(),
+  ]);
+
+  if (breeds.length === 0) {
     return <NoResultUI />;
   }
 
-  return BreedsData.map((breed, index) => (
-    //key index kan også godt være product.id, der skal bare være et key prop med en værdi der bliver unik for hver element der bliver returnet
+  const favoriteIdByImageId = new Map(
+    favorites.map((favorite) => [favorite.image_id, favorite.id]),
+  );
 
-    <article key={index} className={`relative ${className} breed-card`}>
-      <Link href={`/detailview/${breed.id}`} className="grid">
-        <Image
-          loading="eager"
-          src={breed.image.url}
-          width={500}
-          height={500}
-          alt={breed.name}
-          title={breed.name}
-          className="col-start-1 row-start-1 rounded-3xl aspect-4/3 object-cover"
+  return breeds.map((breed, index) => {
+    const favoriteId = favoriteIdByImageId.get(breed.image.id) ?? null;
+    return (
+      <article key={index} className={`relative ${className} breed-card`}>
+        <Link href={`/detailview/${breed.id}`} className="grid">
+          <Image
+            loading="eager"
+            src={breed.image.url}
+            width={500}
+            height={500}
+            alt={breed.name}
+            title={breed.name}
+            className="col-start-1 row-start-1 rounded-3xl aspect-4/3 object-cover"
+          />
+
+          <div className="p-4 gap-4">
+            <h2 className="font-semibold text-xl leading-7">{breed.name}</h2>
+            <p className="text-sx">{breed.origin}</p>
+          </div>
+        </Link>
+
+        <StarBtn
+          id={breed.image.id}
+          imageId={breed.image.id}
+          initialFavoriteId={favoriteId}
         />
-
-        <div className="p-4 gap-4">
-          <h2 className="font-semibold text-xl leading-7">{breed.name}</h2>
-          <p className="text-sx">{breed.origin}</p>
-        </div>
-      </Link>
-      <StarBtn id={breed.image.id} />
-    </article>
-  ));
+      </article>
+    );
+  });
 };
