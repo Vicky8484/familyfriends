@@ -26,22 +26,37 @@ async function FetchDetailBreed({params}) {
   });
 
   const data = await response.json();
-  const temperament =
-    data.temperament
-      ?.split(",")
-      .map((trait) => trait.trim())
-      .filter(Boolean) ?? [];
+  const temperament = data.temperament?.split(",").map((trait) => trait.trim());
+  /*.filter(Boolean) ?? []; fjerner tomme strenge fx ved ekstra kommaer*/
+
+  const favoritesResponse = await fetch(
+    "https://api.thedogapi.com/v1/favourites",
+    {
+      headers: {
+        "x-api-key": process.env.API_KEY,
+      },
+      cache: "no-store",
+    },
+  );
+
+  const favorites = await favoritesResponse.json();
+
+  const favorite = favorites.find(
+    (item) => String(item.image_id) === String(data.image.id),
+  );
 
   return (
     <div key={id} className="grid p-4">
       <div className="relative grid w-fit">
         <Image
           src={data.image.url}
-          alt="Creepy doog"
+          alt={data.name}
           width={500}
           height={500}
+          loading="eager"
           className="col-start-1 row-start-1 rounded-3xl aspect-square object-cover"
         />
+
         <Link
           href="/"
           className=" bg-[#f2968fad] transition-colors duration-400 ease-in-out 
@@ -50,7 +65,10 @@ async function FetchDetailBreed({params}) {
         >
           <MdKeyboardArrowLeft className="size-8" />
         </Link>
-        <StarBtn />
+        <StarBtn
+          imageId={data.image.id}
+          initialFavoriteId={favorite?.id ?? null}
+        />
         <MiniCard name={data.name} image={data.image.url} />
       </div>
 

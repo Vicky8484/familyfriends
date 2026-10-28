@@ -18,7 +18,7 @@ export default function RootLayout({children}) {
   return (
     <html lang="en" className={`${gudea.variable} h-full antialiased`}>
       <body className="bg-gray-900">
-        <main className="min-h-screen flex flex-col max-w-md m-auto">
+        <main className="min-h-screen flex flex-col max-w-90 m-auto">
           <Header />
           {children}
           <Footer />
